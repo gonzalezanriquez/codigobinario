@@ -4,81 +4,103 @@
 <meta charset="UTF-8">
 <title>Binario Interactivo</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background: #0f172a;
-        color: white;
-        padding: 20px;
-    }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
 
-    h1 {
-        margin-bottom: 10px;
-    }
+.tabla {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 5px;
+}
 
-    .tabla {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-        gap: 5px;
-    }
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .col {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.potencia {
+    background: #1e293b;
+    padding: 10px;
+    width: 60px;
+}
 
-    .potencia {
-        background: #1e293b;
-        padding: 10px;
-        width: 60px;
-        border-radius: 6px 6px 0 0;
-    }
+.bit {
+    background: #334155;
+    padding: 10px;
+    width: 60px;
+    cursor: pointer;
+    font-size: 20px;
+}
 
-    .bit {
-        background: #334155;
-        padding: 10px;
-        width: 60px;
-        cursor: pointer;
-        border-radius: 0 0 6px 6px;
-        font-size: 20px;
-    }
+.bit.activo {
+    background: #22c55e;
+}
 
-    .bit.activo {
-        background: #22c55e;
-    }
+.resultado {
+    margin-top: 20px;
+    font-size: 22px;
+}
 
-    .resultado {
-        margin-top: 20px;
-        font-size: 24px;
-    }
+input {
+    padding: 10px;
+    font-size: 18px;
+    width: 120px;
+    text-align: center;
+}
 
-    input {
-        padding: 10px;
-        font-size: 18px;
-        width: 120px;
-        text-align: center;
-    }
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #3b82f6;
+    color: white;
+}
 
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background: #3b82f6;
-        color: white;
-    }
+/* 🎉 Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: red;
+    top: -10px;
+    animation: caer 3s linear forwards;
+}
 
+@keyframes caer {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* 🎯 Cartel */
+#mensaje {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #22c55e;
+    color: black;
+    padding: 20px 40px;
+    font-size: 30px;
+    border-radius: 10px;
+    display: none;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
 
-<h1>🔢 Conversor a Binario (Modo Aula)</h1>
-
-<p>Ingresá un número y decidí qué potencias usar</p>
+<h1>🔢 Binario Interactivo</h1>
 
 <input type="number" id="numero" placeholder="Ej: 67">
 <br>
@@ -88,16 +110,20 @@
 
 <div class="resultado">
     <p>Restante: <span id="restante">0</span></p>
-    <p>Binario: <span id="binario">00000000</span></p>
+    <p>Binario: <span id="binario">0</span></p>
 </div>
+
+<div id="mensaje">🎉 EXACTO MUY BIEN 🎉</div>
 
 <script>
 let potencias = [128, 64, 32, 16, 8, 4, 2, 1];
 let restante = 0;
+let objetivo = 0;
 let bits = Array(8).fill(0);
 
 function iniciar() {
-    restante = parseInt(document.getElementById("numero").value);
+    objetivo = parseInt(document.getElementById("numero").value);
+    restante = objetivo;
     bits = Array(8).fill(0);
     render();
     actualizar();
@@ -115,6 +141,7 @@ function toggle(index) {
     }
     render();
     actualizar();
+    validar();
 }
 
 function render() {
@@ -142,7 +169,34 @@ function render() {
 
 function actualizar() {
     document.getElementById("restante").innerText = restante;
-    document.getElementById("binario").innerText = bits.join("").replace(/^0+/, '') || "0";
+    document.getElementById("binario").innerText =
+        bits.join("").replace(/^0+/, '') || "0";
+}
+
+function validar() {
+    if (restante === 0) {
+        mostrarMensaje();
+        lanzarConfetti();
+    }
+}
+
+function mostrarMensaje() {
+    let msg = document.getElementById("mensaje");
+    msg.style.display = "block";
+    setTimeout(() => msg.style.display = "none", 3000);
+}
+
+function lanzarConfetti() {
+    for (let i = 0; i < 50; i++) {
+        let c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+        c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(c);
+
+        setTimeout(() => c.remove(), 3000);
+    }
 }
 </script>
 
