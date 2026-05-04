@@ -1,0 +1,39 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Fondo -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Título -->
+  <text x="600" y="200" text-anchor="middle" fill="#22c55e"
+        font-size="64" font-family="Arial, sans-serif" font-weight="bold">
+    CONVERSOR BINARIO
+  </text>
+
+  <!-- Subtítulo -->
+  <text x="600" y="260" text-anchor="middle" fill="#ffffff"
+        font-size="28" font-family="Arial, sans-serif">
+    Aprendé jugando con 0 y 1
+  </text>
+
+  <!-- Números decorativos -->
+  <g fill="#3b82f6" font-size="40" font-family="monospace" opacity="0.2">
+    <text x="100" y="400">101010</text>
+    <text x="300" y="500">001101</text>
+    <text x="500" y="420">111000</text>
+    <text x="800" y="480">010101</text>
+    <text x="1000" y="400">110011</text>
+  </g>
+
+  <!-- Número destacado -->
+  <text x="600" y="400" text-anchor="middle" fill="#22c55e"
+        font-size="120" font-family="monospace" font-weight="bold">
+    1000011
+  </text>
+
+  <!-- Footer -->
+  <text x="600" y="580" text-anchor="middle" fill="#94a3b8"
+        font-size="20" font-family="Arial">
+    Modo Aula Interactivo
+  </text>
+
+</svg>
