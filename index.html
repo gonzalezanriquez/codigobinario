@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Binario Interactivo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #0f172a;
+        color: white;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    .tabla {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 5px;
+    }
+
+    .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .potencia {
+        background: #1e293b;
+        padding: 10px;
+        width: 60px;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .bit {
+        background: #334155;
+        padding: 10px;
+        width: 60px;
+        cursor: pointer;
+        border-radius: 0 0 6px 6px;
+        font-size: 20px;
+    }
+
+    .bit.activo {
+        background: #22c55e;
+    }
+
+    .resultado {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 18px;
+        width: 120px;
+        text-align: center;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #3b82f6;
+        color: white;
+    }
+
+</style>
+</head>
+<body>
+
+<h1>🔢 Conversor a Binario (Modo Aula)</h1>
+
+<p>Ingresá un número y decidí qué potencias usar</p>
+
+<input type="number" id="numero" placeholder="Ej: 67">
+<br>
+<button onclick="iniciar()">Iniciar</button>
+
+<div class="tabla" id="tabla"></div>
+
+<div class="resultado">
+    <p>Restante: <span id="restante">0</span></p>
+    <p>Binario: <span id="binario">00000000</span></p>
+</div>
+
+<script>
+let potencias = [128, 64, 32, 16, 8, 4, 2, 1];
+let restante = 0;
+let bits = Array(8).fill(0);
+
+function iniciar() {
+    restante = parseInt(document.getElementById("numero").value);
+    bits = Array(8).fill(0);
+    render();
+    actualizar();
+}
+
+function toggle(index) {
+    if (bits[index] === 0) {
+        if (potencias[index] <= restante) {
+            bits[index] = 1;
+            restante -= potencias[index];
+        }
+    } else {
+        bits[index] = 0;
+        restante += potencias[index];
+    }
+    render();
+    actualizar();
+}
+
+function render() {
+    let tabla = document.getElementById("tabla");
+    tabla.innerHTML = "";
+
+    potencias.forEach((p, i) => {
+        let col = document.createElement("div");
+        col.className = "col";
+
+        let top = document.createElement("div");
+        top.className = "potencia";
+        top.innerText = p;
+
+        let bottom = document.createElement("div");
+        bottom.className = "bit" + (bits[i] ? " activo" : "");
+        bottom.innerText = bits[i];
+        bottom.onclick = () => toggle(i);
+
+        col.appendChild(top);
+        col.appendChild(bottom);
+        tabla.appendChild(col);
+    });
+}
+
+function actualizar() {
+    document.getElementById("restante").innerText = restante;
+    document.getElementById("binario").innerText = bits.join("").replace(/^0+/, '') || "0";
+}
+</script>
+
+</body>
+</html>
